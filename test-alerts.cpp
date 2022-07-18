@@ -3,6 +3,8 @@
 #include "test/catch.hpp"
 #include "typewise-alert.h"
 
+void test_checkAndAlert(void);
+
 int dummy_temp[3][3] = { {-1,5,36}, {-2,13,47}, {-3,40,45} };
 
 TEST_CASE("Test Check and Alert") 
@@ -14,15 +16,15 @@ void test_checkAndAlert(void)
 {
   AlertTarget       alertTarget;
   BatteryCharacter  batteryChar;
-  double            temperatureInC;
+  double            temperatureInc;
   CoolingType       coolType;
   int               ii, jj;
   
-  batteryChar.brand = "BOSCH";
-  alertTarget = TO_MAIL;
-  for(ii=0; ii < coolType.MED_ACTIVE_COOLING; ii++)
+  strcpy(batteryChar.brand, "BOSCH");
+  alertTarget = TO_EMAIL;
+  for(coolType = PASSIVE_COOLING; coolType <= MED_ACTIVE_COOLING; coolType)
   {
-    batteryChar.coolingType =   ii;
+    batteryChar.coolingType =   coolType;
     for(jj=0; jj < 3; jj++)
     {
       temperatureInc = dummy_temp[ii][jj];
