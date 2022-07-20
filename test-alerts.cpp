@@ -22,9 +22,9 @@ void test_checkAndAlert(void)
   
   strcpy(batteryChar.brand, "BOSCH");
   alertTarget = TO_EMAIL;
-  for(coolType = PASSIVE_COOLING; coolType <= MED_ACTIVE_COOLING; coolType = coolType + 1)
+  for(ii=0; ii <= MED_ACTIVE_COOLING; ii++)
   {
-    batteryChar.coolingType =   coolType;
+    batteryChar.coolingType =   coolType[ii];
     for(jj=0; jj < 3; jj++)
     {
       temperatureInc = dummy_temp[(int)coolType][jj];
