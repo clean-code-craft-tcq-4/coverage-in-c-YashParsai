@@ -24,7 +24,7 @@ void test_checkAndAlert(void)
   alertTarget = TO_EMAIL;
   for(ii=0; ii <= MED_ACTIVE_COOLING; ii++)
   {
-    batteryChar.coolingType =   coolType[ii];
+    batteryChar.coolingType =   ii;
     for(jj=0; jj < 3; jj++)
     {
       temperatureInc = dummy_temp[(int)coolType][jj];
