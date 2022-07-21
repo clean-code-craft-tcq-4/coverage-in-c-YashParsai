@@ -28,6 +28,7 @@ typedef struct {
 bool checkAndAlert(
   AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC);
 
+void sendAlert( AlertTarget alertTarget, BreachType breachType);
 void sendToController(BreachType breachType);
 void sendToEmail(BreachType breachType);
 void checkLowLimitBreach(double value, double lowerLimit, BreachType* breach);
