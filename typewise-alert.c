@@ -68,21 +68,29 @@ void evaluateLimit_MED_ACTIVE_COOLING(CoolingType coolingType, int* lowerLimit, 
 
 bool checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) 
 {
-	bool alertActive = false;
-
+	
   	BreachType breachType = classifyTemperatureBreach(batteryChar.coolingType, temperatureInC);
-  	if(alertTarget == TO_CONTROLLER)
+  	
+	if(breachType != NORMAL)
+	{
+		sendAlert(alertTarget, breachType);
+		return true;
+	}
+	return false;
+}
+
+void sendAlert( AlertTarget alertTarget, BreachType breachType)
+{
+	if(alertTarget == TO_CONTROLLER)
   	{
 		sendToController(breachType);
-		alertActive = true;
   	}
   	else if (alertTarget == TO_EMAIL)
   	{
 		sendToEmail(breachType);
-		alertActive = true;
   	}
-	return alertActive;
-}
+}	
+
 
 void sendToController(BreachType breachType) 
 {
