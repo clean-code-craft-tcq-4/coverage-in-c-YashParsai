@@ -1,6 +1,6 @@
-#include "typewise-alert.h"
 #include <stdio.h>
-
+#include "typewise-alert.h"
+#include"checker.h"
 BreachType inferBreach(double value, double lowerLimit, double upperLimit)
 {
 	BreachType breach = NORMAL;
@@ -8,23 +8,6 @@ BreachType inferBreach(double value, double lowerLimit, double upperLimit)
 	checkUpLimitBreach(value, upperLimit, &breach);
 	return breach;
 }
-
-void checkLowLimitBreach(double value, double lowerLimit, BreachType* breach)
-{
-	if(value < lowerLimit)
-	{
-		*breach = TOO_LOW;
-	}
-}
-
-void checkUpLimitBreach(double value, double upperLimit, BreachType* breach)
-{
-        if(value > upperLimit)
-        {
-                *breach = TOO_HIGH;
-        }
-}
-
 
 BreachType classifyTemperatureBreach(CoolingType coolingType, double temperatureInC) 
 {
@@ -37,34 +20,6 @@ BreachType classifyTemperatureBreach(CoolingType coolingType, double temperature
   
   	return inferBreach(temperatureInC, lowerLimit, upperLimit);
 }
-
-void evaluateLimit_PASSIVE_COOLING(CoolingType coolingType, int* lowerLimit, int* upperLimit)
-{
-	if(coolingType == PASSIVE_COOLING)
-	{
-		*lowerLimit = 0;
-		*upperLimit = 35;
-	}
-}
-
-void evaluateLimit_HI_ACTIVE_COOLING(CoolingType coolingType, int* lowerLimit, int* upperLimit)
-{
-        if(coolingType == HI_ACTIVE_COOLING)
-        {
-                *lowerLimit = 0;
-                *upperLimit = 45;
-        }
-}
-
-void evaluateLimit_MED_ACTIVE_COOLING(CoolingType coolingType, int* lowerLimit, int* upperLimit)
-{
-        if(coolingType == MED_ACTIVE_COOLING)
-        {
-                *lowerLimit = 0;
-                *upperLimit = 40;
-        }
-}
-
 
 bool checkAndAlert(AlertTarget alertTarget, BatteryCharacter batteryChar, double temperatureInC) 
 {
