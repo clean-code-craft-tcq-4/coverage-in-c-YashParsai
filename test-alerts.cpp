@@ -12,6 +12,8 @@ TEST_CASE("infers the breach according to limits")
 
 TEST_CASE("Classify breach according to temperature and cooling type") 
 { 
+  BatteryCharacter batteryChar;
+  
   REQUIRE(classifyTemperatureBreach(PASSIVE_COOLING, -1) == TOO_LOW);
   REQUIRE(classifyTemperatureBreach(PASSIVE_COOLING, 36) == TOO_HIGH);
   REQUIRE(classifyTemperatureBreach(PASSIVE_COOLING, 20) == NORMAL);
@@ -28,4 +30,7 @@ TEST_CASE("Classify breach according to temperature and cooling type")
   sendToController(TOO_LOW);
   sendToEmail(TOO_LOW);
   sendToEmail(TOO_HIGH);
+  batteryChar.coolingType = PASSIVE_COOLING;
+  checkAndAlert(TO_CONTROLLER, batteryChar, 20);
+  checkAndAlert(TO_EMAIL, batteryChar, 20);
 }
