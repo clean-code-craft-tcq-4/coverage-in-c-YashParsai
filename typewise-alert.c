@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include "typewise-alert.h"
 #include"checker.h"
+
 BreachType inferBreach(double value, double lowerLimit, double upperLimit)
 {
 	BreachType breach = NORMAL;
@@ -61,12 +62,10 @@ void sendToEmail(BreachType breachType)
 	  {
 	      printf("To: %s\n", recepient);
 	      printf("Hi, the temperature is too low\n");
-
 	  }
 	  else if(breachType == TOO_HIGH)
 	  {
 	      printf("To: %s\n", recepient);
 	      printf("Hi, the temperature is too high\n");
-
 	  }
 }
