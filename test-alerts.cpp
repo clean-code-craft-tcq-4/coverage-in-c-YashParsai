@@ -10,7 +10,7 @@
   REQUIRE(inferBreach(25, 20, 30) == NORMAL);
 }
 */
-TEST_CASE("Classify breach according to temperature and cooling type") 
+/*TEST_CASE("Classify breach according to temperature and cooling type") 
 { 
   BatteryCharacter batteryChar;
   
@@ -33,4 +33,14 @@ TEST_CASE("Classify breach according to temperature and cooling type")
   batteryChar.coolingType = PASSIVE_COOLING;
   checkAndAlert(TO_CONTROLLER, batteryChar, 20);
   checkAndAlert(TO_EMAIL, batteryChar, 20);
-}
+}*/
+
+TEST_CASE("Test checkAndAlert functionality")
+{
+  BatteryCharacter batteryChar;
+  
+  batteryChar.coolingType = PASSIVE_COOLING;
+  REQUIRE(checkAndAlert(TO_CONTROLLER,batteryChar,-1) == 1);
+  REQUIRE(checkAndAlert(TO_CONTROLLER,batteryChar,20) == 1);
+  REQUIRE(checkAndAlert(TO_CONTROLLER,batteryChar,36) == 1);
+  }
