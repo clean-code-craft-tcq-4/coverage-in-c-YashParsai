@@ -3,32 +3,54 @@
 #include "test/catch.hpp"
 #include "typewise-alert.h"
 
-void test_checkAndAlert(void);
-
-int dummy_temp[3][3] = { {-1,5,36}, {-2,13,47}, {-3,40,45} };
-
-TEST_CASE("Test Check and Alert") 
+/*TEST_CASE("infers the breach according to limits") 
 {
-  test_checkAndAlert();
+  REQUIRE(inferBreach(12, 20, 30) == TOO_LOW);
+  REQUIRE(inferBreach(35, 20, 30) == TOO_HIGH);
+  REQUIRE(inferBreach(25, 20, 30) == NORMAL);
 }
-
-void test_checkAndAlert(void)
-{
-  AlertTarget       alertTarget;
-  BatteryCharacter  batteryChar;
-  double            temperatureInc;
-  CoolingType       coolType;
-  int               ii, jj;
+*/
+/*TEST_CASE("Classify breach according to temperature and cooling type") 
+{ 
+  BatteryCharacter batteryChar;
   
-  strcpy(batteryChar.brand, "BOSCH");
-  alertTarget = TO_EMAIL;
-  for(ii=0; ii <= MED_ACTIVE_COOLING; ii++)
-  {
-    batteryChar.coolingType =   ii;
-    for(jj=0; jj < 3; jj++)
-    {
-      temperatureInc = dummy_temp[(int)coolType][jj];
-      checkAndAlert(alertTarget, batteryChar, temperatureInc);
-    }
+  REQUIRE(classifyTemperatureBreach(PASSIVE_COOLING, -1) == TOO_LOW);
+  REQUIRE(classifyTemperatureBreach(PASSIVE_COOLING, 36) == TOO_HIGH);
+  REQUIRE(classifyTemperatureBreach(PASSIVE_COOLING, 20) == NORMAL);
+  
+  REQUIRE(classifyTemperatureBreach(HI_ACTIVE_COOLING, -1) == TOO_LOW);
+  REQUIRE(classifyTemperatureBreach(HI_ACTIVE_COOLING, 46) == TOO_HIGH);
+  REQUIRE(classifyTemperatureBreach(HI_ACTIVE_COOLING, 20) == NORMAL);
+  
+  REQUIRE(classifyTemperatureBreach(MED_ACTIVE_COOLING, -1) == TOO_LOW);
+  REQUIRE(classifyTemperatureBreach(MED_ACTIVE_COOLING, 42) == TOO_HIGH);
+  REQUIRE(classifyTemperatureBreach(MED_ACTIVE_COOLING, 20) == NORMAL);
+  
+  
+  sendToController(TOO_LOW);
+  sendToEmail(TOO_LOW);
+  sendToEmail(TOO_HIGH);
+  batteryChar.coolingType = PASSIVE_COOLING;
+  checkAndAlert(TO_CONTROLLER, batteryChar, 20);
+  checkAndAlert(TO_EMAIL, batteryChar, 20);
+}*/
+
+TEST_CASE("Test checkAndAlert functionality")
+{
+  BatteryCharacter batteryChar;
+  
+  batteryChar.coolingType = PASSIVE_COOLING;
+  REQUIRE(checkAndAlert(TO_CONTROLLER, batteryChar,-1) == 1);
+  REQUIRE(checkAndAlert(TO_CONTROLLER, batteryChar,20) == 0);
+  REQUIRE(checkAndAlert(TO_CONTROLLER, batteryChar,36) == 1);
+  
+  batteryChar.coolingType = HI_ACTIVE_COOLING;
+  REQUIRE(checkAndAlert(TO_EMAIL, batteryChar,-1) == 1);
+  REQUIRE(checkAndAlert(TO_EMAIL, batteryChar,20) == 0);
+  REQUIRE(checkAndAlert(TO_EMAIL, batteryChar,46) == 1);
+  
+  batteryChar.coolingType = MED_ACTIVE_COOLING;
+  REQUIRE(checkAndAlert(TO_EMAIL, batteryChar,-1) == 1);
+  REQUIRE(checkAndAlert(TO_EMAIL, batteryChar,20) == 0);
+  REQUIRE(checkAndAlert(TO_EMAIL, batteryChar,42) == 1);
   }
-}
