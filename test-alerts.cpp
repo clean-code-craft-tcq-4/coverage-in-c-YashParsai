@@ -2,6 +2,7 @@
 
 #include "test/catch.hpp"
 #include "typewise-alert.h"
+#include "checker.h"
 
 /*TEST_CASE("infers the breach according to limits") 
 {
