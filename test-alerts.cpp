@@ -56,7 +56,7 @@ TEST_CASE("Test checkAndAlert functionality")
   REQUIRE(checkAndAlert(TO_EMAIL, batteryChar,42) == 1);
   }
 
-TEST_CASE("Test for checker stubs")
+/*TEST_CASE("Test for checker stubs")
 {
   BreachType breach;
   int lowLimit;
@@ -79,5 +79,24 @@ TEST_CASE("Test for checker stubs")
   evaluateLimit_MED_ACTIVE_COOLING(MED_ACTIVE_COOLING, &lowLimit, &upLimit);
   REQUIRE(lowLimit == 0);
   REQUIRE(upLimit == 40);
+  
+}*/
+
+TEST_CASE(" Checking Coverage")
+{
+  BatteryCharacter batteryChar;
+  
+  batteryChar.coolingType = PASSIVE_COOLING;
+  
+  inferBreach(-1,0,35);
+  classifyTemperatureBreach(MED_ACTIVE_COOLING,-1);
+  checkAndAlert(TO_EMAIL, batteryChar, -1);
+  checkAndAlert(TO_CONTROLLER, batteryChar, 10);
+  sendAlert(TO_CONTROLLER,TOO_LOW);
+  sendAlert(TO_EMAIL,TOO_HIGH);
+  sendToController(TOO_LOW);
+  sendToEmail(TOO_LOW);
+  sendToEmail(TOO_HIGH);
+  printString("TOO_LOw");
   
 }
