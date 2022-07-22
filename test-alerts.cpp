@@ -54,3 +54,29 @@ TEST_CASE("Test checkAndAlert functionality")
   REQUIRE(checkAndAlert(TO_EMAIL, batteryChar,20) == 0);
   REQUIRE(checkAndAlert(TO_EMAIL, batteryChar,42) == 1);
   }
+
+TEST_CASE("Test for checker stubs")
+{
+  BreachType breach;
+  int lowLimit;
+  int upLimit;
+  
+  checkLowLimitBreach(-1, 0, &breach);
+  REQUIRE(breach == TOO_LOW);
+  
+  checkUpLimitBreach(36, 35, &breach);
+  REQUIRE(breach == TOO_HIGH);
+  
+  evaluateLimit_PASSIVE_COOLING(PASSIVE_COOLING, &lowLimit, &upLimit);
+  REQUIRE(lowLimit == 0);
+  REQUIRE(upLimit == 35);
+  
+  evaluateLimit_HI_ACTIVE_COOLING(HI_ACTIVE_COOLING, &lowLimit, &upLimit);
+  REQUIRE(lowLimit == 0);
+  REQUIRE(upLimit == 45);
+  
+  evaluateLimit_MED_ACTIVE_COOLING(MED_ACTIVE_COOLING, &lowLimit, &upLimit);
+  REQUIRE(lowLimit == 0);
+  REQUIRE(upLimit == 40);
+  
+}
